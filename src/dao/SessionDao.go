@@ -15,11 +15,9 @@ var insertSessionStatement = "insert into sessions(id, user_id) values ('" + ses
 func GetSessionSessionId(sessionId string) (models.DatabaseSession, error) {
 	var query = strings.ReplaceAll(selectSessionStatement, sessionIdStub, sessionId)
 	var rows, error = database.ExecuteSimpleQuery(query)
-	println("##### ", query)
 	var empty models.DatabaseSession
 	var result = make([]models.DatabaseSession, 0)
 	if error != nil {
-		println("##### " + error.Error())
 		return empty, error
 	}
 	for rows.Next() {
@@ -43,7 +41,6 @@ func GetSessionSessionId(sessionId string) (models.DatabaseSession, error) {
 func AddSession(sessionId string, userId string) (int64, error) {
 	var query = strings.ReplaceAll(insertSessionStatement, sessionIdStub, sessionId)
 	query = strings.ReplaceAll(query, userIdStub, userId)
-	println("##### ", query)
 	var result, eError = database.ExecuteSimpleUpdatableQuery(query)
 	if eError != nil {
 		return 0, eError

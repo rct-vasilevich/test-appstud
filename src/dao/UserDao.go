@@ -26,12 +26,10 @@ func GetAllUsers() ([]models.DatabaseUser, error) {
 
 func GetContainsUserLogin(login string) (bool, error) {
 	var query = strings.ReplaceAll(selectUserLoginStatement, loginStub, login)
-	println("##### ", query)
 	var rows, error = database.ExecuteSimpleQuery(query)
 	var result = make([]models.DatabaseUser, 0)
 
 	if error != nil {
-		println("##### error: ", error.Error())
 		return false, error
 	}
 	result = parseUsers(rows)
@@ -47,7 +45,6 @@ func GetContainsUserLogin(login string) (bool, error) {
 func GetUserById(id string) (models.DatabaseUser, error) {
 	var empty models.DatabaseUser
 	var query = strings.ReplaceAll(selectUserStatement, idStub, id)
-	println("##### ", query)
 	var rows, error = database.ExecuteSimpleQuery(query)
 	var result = make([]models.DatabaseUser, 0)
 	if error != nil {
@@ -67,7 +64,6 @@ func GetUserByLoginAndPassword(login string, password string) (models.DatabaseUs
 	var empty models.DatabaseUser
 	var query = strings.ReplaceAll(selectUserLoginPasswordStatement, loginStub, login)
 	query = strings.ReplaceAll(query, passwordStub, password)
-	println("##### ", query)
 	var rows, error = database.ExecuteSimpleQuery(query)
 	var result = make([]models.DatabaseUser, 0)
 	if error != nil {
@@ -95,7 +91,6 @@ func AddUser(id string, login string, password string) (int64, error) {
 	var query = strings.ReplaceAll(insertUserStatement, idStub, id)
 	query = strings.ReplaceAll(query, loginStub, login)
 	query = strings.ReplaceAll(query, passwordStub, password)
-	println("##### ", query)
 	var result, eError = database.ExecuteSimpleUpdatableQuery(query)
 	if eError != nil {
 		return 0, eError
